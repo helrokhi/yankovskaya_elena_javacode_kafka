@@ -8,9 +8,9 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>orders</artifactId>
+    <artifactId>ms-orders</artifactId>
     <packaging>jar</packaging>
 
-    <name>orders</name>
+    <name>ms-orders</name>
 
 </project>

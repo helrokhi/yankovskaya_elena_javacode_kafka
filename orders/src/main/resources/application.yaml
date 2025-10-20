@@ -1,0 +1,20 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ms-orders
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      group-id: new_orders
+      key:
+        serializer: org.apache.kafka.common.serialization.StringSerializer
+      value:
+        serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+logging:
+  level:
+    root: INFO
+    org.springframework.kafka: INFO
