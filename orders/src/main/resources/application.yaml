@@ -8,7 +8,6 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
     producer:
-      group-id: new_orders
       key:
         serializer: org.apache.kafka.common.serialization.StringSerializer
       value:
