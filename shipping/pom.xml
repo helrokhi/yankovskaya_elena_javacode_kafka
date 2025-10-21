@@ -8,9 +8,9 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>shipping</artifactId>
+    <artifactId>ms-shipping</artifactId>
     <packaging>jar</packaging>
 
-    <name>shipping</name>
+    <name>ms-shipping</name>
 
 </project>

@@ -1,5 +1,6 @@
 package ru.pro.kafka.impl;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -8,13 +9,17 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.pro.kafka.PaymentConsumer;
 import ru.pro.model.dto.OrderDto;
-import ru.pro.service.PaymentService;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@Getter
 public class PaymentConsumerImpl implements PaymentConsumer {
-    private final PaymentService paymentService;
+    private final Map<String, OrderDto> orders = new ConcurrentHashMap<>();
 
     @Override
     @KafkaListener(
@@ -34,6 +39,6 @@ public class PaymentConsumerImpl implements PaymentConsumer {
         }
         OrderDto order = (OrderDto) value;
         log.info("Received new order: {}", order.id());
-        paymentService.processPayment(order);
+        orders.put(order.id(), order);
     }
 }

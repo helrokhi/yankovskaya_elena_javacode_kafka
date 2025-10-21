@@ -6,5 +6,8 @@ import ru.pro.model.enums.OrderStatus;
 
 public interface OrderService {
     OrderDto createOrder(OrderCreateDto dto);
-    OrderDto updateStatus(String orderId, OrderStatus status);
+
+    void updateStatus(String orderId, OrderStatus status);
+
+    OrderDto findById(String id);
 }

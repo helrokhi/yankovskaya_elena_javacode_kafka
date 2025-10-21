@@ -5,8 +5,8 @@ import ru.pro.model.dto.OrderDto;
 
 import java.util.Map;
 
-public interface PaymentConsumer {
+public interface ShippingConsumer {
     void consume(Object object, ConsumerRecord<String, Object> consumerRecord);
 
-    Map<String, OrderDto> getOrders();
+    Map<String, OrderDto> getPaidOrders();
 }

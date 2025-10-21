@@ -1,28 +1,33 @@
 package ru.pro.kafka.impl;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-import ru.pro.kafka.OrderConsumer;
+import ru.pro.kafka.ShippingConsumer;
 import ru.pro.model.dto.OrderDto;
-import ru.pro.service.OrderService;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class OrderConsumerImpl implements OrderConsumer {
-    private final OrderService orderService;
+@Getter
+public class ShippingConsumerImpl implements ShippingConsumer {
+    private final Map<String, OrderDto> paidOrders = new ConcurrentHashMap<>();
 
     @Override
     @KafkaListener(
-            topics = {"${topics.input.payed}", "${topics.input.sent}"},
+            topics = "${topics.input}",
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "objectConcurrentKafkaListenerContainerFactory")
-    public void consume(@Payload Object object,
-                        ConsumerRecord<String, Object> consumerRecord) {
+    public void consume(
+            @Payload Object object,
+            ConsumerRecord<String, Object> consumerRecord) {
         handleRequest(consumerRecord.value());
     }
 
@@ -32,7 +37,7 @@ public class OrderConsumerImpl implements OrderConsumer {
             return;
         }
         OrderDto order = (OrderDto) value;
-        log.info("Received payed order {} updating status {}", order.id(), order.status());
-        orderService.updateStatus(order.id(), order.status());
+        log.info("Received new order: {}", order.id());
+        paidOrders.put(order.id(), order);
     }
 }

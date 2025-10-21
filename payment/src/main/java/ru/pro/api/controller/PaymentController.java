@@ -13,7 +13,7 @@ public class PaymentController implements PaymentApi {
     private final PaymentService paymentService;
 
     @Override
-    public ResponseEntity<OrderDto> processPayment(OrderDto dto) {
-        return ResponseEntity.ok(paymentService.processPayment(dto));
+    public ResponseEntity<OrderDto> processPayment(String id) {
+        return ResponseEntity.ok(paymentService.processPayment(id));
     }
 }

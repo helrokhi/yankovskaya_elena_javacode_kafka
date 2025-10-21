@@ -32,7 +32,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDto updateStatus(String orderId, OrderStatus status) {
+    public void updateStatus(String orderId, OrderStatus status) {
         OrderDto existing = storage.get(orderId);
         if (existing == null) {
             throw new NoSuchElementException("Order not found: " + orderId);
@@ -40,6 +40,14 @@ public class OrderServiceImpl implements OrderService {
         OrderDto updated = mapper.updateStatus(existing, status);
         storage.put(orderId, updated);
         log.info("Updated order {} status to {}", orderId, status);
-        return updated;
+    }
+
+    @Override
+    public OrderDto findById(String id) {
+        OrderDto existing = storage.get(id);
+        if (existing == null) {
+            throw new NoSuchElementException("Order not found: " + id);
+        }
+        return existing;
     }
 }
