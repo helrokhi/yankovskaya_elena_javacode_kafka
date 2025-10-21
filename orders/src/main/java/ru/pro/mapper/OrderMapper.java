@@ -18,8 +18,6 @@ public interface OrderMapper {
         return new OrderDto(
                 order.id(),
                 order.customer(),
-                order.product(),
-                order.quantity(),
                 status
         );
     }

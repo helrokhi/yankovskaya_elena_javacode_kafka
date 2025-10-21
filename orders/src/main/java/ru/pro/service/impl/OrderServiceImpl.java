@@ -26,19 +26,20 @@ public class OrderServiceImpl implements OrderService {
     public OrderDto createOrder(OrderCreateDto dto) {
         OrderDto order = mapper.fromCreateDto(dto);
         storage.put(order.id(), order);
-        producer.sendNewOrder("new_orders", order.id(), dto);
+        producer.sendNewOrder(order.id(), order);
+        log.info("Created new order {}", order.id());
         return order;
     }
 
     @Override
     public OrderDto updateStatus(String orderId, OrderStatus status) {
-        log.info("orderId: {}, status {}: ", orderId, status);
         OrderDto existing = storage.get(orderId);
         if (existing == null) {
             throw new NoSuchElementException("Order not found: " + orderId);
         }
         OrderDto updated = mapper.updateStatus(existing, status);
         storage.put(orderId, updated);
+        log.info("Updated order {} status to {}", orderId, status);
         return updated;
     }
 }

@@ -8,9 +8,9 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>payment</artifactId>
+    <artifactId>ms-payment</artifactId>
     <packaging>jar</packaging>
 
-    <name>payment</name>
+    <name>ms-payment</name>
 
 </project>

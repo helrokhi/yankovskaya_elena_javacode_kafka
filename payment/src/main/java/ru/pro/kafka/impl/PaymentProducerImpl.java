@@ -2,18 +2,22 @@ package ru.pro.kafka.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import ru.pro.kafka.OrderProducer;
+import ru.pro.kafka.PaymentProducer;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class KafkaOrderProducer implements OrderProducer {
+public class PaymentProducerImpl implements PaymentProducer {
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
+    @Value("${topics.output}")
+    private String topic;
+
     @Override
-    public void sendNewOrder(String topic, String message, Object object) {
+    public void sendPayedOrder(String message, Object object) {
         log.info("send -> topic: {} message: {} object: {}", topic, message, object);
         kafkaTemplate.send(topic, message, object)
                 .whenComplete((result, ex) -> {
