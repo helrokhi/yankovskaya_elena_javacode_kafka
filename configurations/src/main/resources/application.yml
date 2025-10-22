@@ -15,6 +15,9 @@ spring:
       value:
         deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
+topics:
+  partitions: 4
+
 logging:
   level:
     root: INFO
