@@ -8,5 +8,5 @@ import java.util.Map;
 public interface PaymentConsumer {
     void consume(Object object, ConsumerRecord<String, Object> consumerRecord);
 
-    Map<String, OrderDto> getOrders();
+    Map<String, OrderDto> getNewOrders();
 }

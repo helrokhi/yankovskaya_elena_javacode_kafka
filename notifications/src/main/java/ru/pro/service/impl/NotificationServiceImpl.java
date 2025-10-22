@@ -4,6 +4,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -31,14 +32,18 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void sendOrderDeliveredNotification(OrderDto order) {
+    public void sendOrderDeliveredNotification(OrderDto order) throws MessagingException {
         try {
             sendEmail(order);
             log.info("Notification sent to user {} about delivery of order {}", order.customer(), order.id());
+        } catch (MailSendException e) {
+            throw new MessagingException("Почтовый сервер недоступен при отправке уведомления пользователю "
+                    + order.customer(), e);
         } catch (MessagingException e) {
-            log.error("Ошибка при отправке уведомления пользователю {}: {}", order.customer(), e.getMessage());
+            throw e;
         } catch (Exception e) {
-            log.error("Непредвиденная ошибка при отправке уведомления для заказа {}: {}", order.id(), e.getMessage());
+            throw new MessagingException("Непредвиденная ошибка при отправке уведомления для заказа "
+                    + order.id(), e);
         }
     }
 

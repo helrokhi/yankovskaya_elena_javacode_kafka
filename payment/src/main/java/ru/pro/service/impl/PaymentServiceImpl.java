@@ -22,7 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
     public OrderDto processPayment(String id) {
         log.info("Processing payment for order {}", id);
 
-        OrderDto order = paymentConsumer.getOrders().get(id);
+        OrderDto order = paymentConsumer.getNewOrders().get(id);
         if (order == null) {
             throw new IllegalArgumentException("Order not found: " + id);
         }
