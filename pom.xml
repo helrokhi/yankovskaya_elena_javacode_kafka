@@ -21,6 +21,8 @@
         <module>payment</module>
         <module>shipping</module>
         <module>notifications</module>
+        <module>library</module>
+        <module>configurations</module>
     </modules>
 
     <properties>

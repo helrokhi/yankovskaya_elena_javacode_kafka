@@ -6,11 +6,26 @@
         <groupId>ru.pro</groupId>
         <artifactId>kafka-shop</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>ms-shipping</artifactId>
     <packaging>jar</packaging>
 
     <name>ms-shipping</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>ru.pro</groupId>
+            <artifactId>library</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ru.pro</groupId>
+            <artifactId>configurations</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

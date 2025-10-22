@@ -10,25 +10,9 @@ spring:
 
     consumer:
       group-id: orders-group
-      auto-offset-reset: earliest
-      key:
-        deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value:
-        deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-
-    producer:
-      key:
-        serializer: org.apache.kafka.common.serialization.StringSerializer
-      value:
-        serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 topics:
   input:
     payed: payed_orders
     sent: sent_orders
   output: new_orders
-
-logging:
-  level:
-    root: INFO
-    org.springframework.kafka: INFO

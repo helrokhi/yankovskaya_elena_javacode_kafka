@@ -27,8 +27,6 @@ public class KafkaConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value("${spring.kafka.consumer.group-id")
-    private String groupId;
     private final ObjectMapper objectMapper;
 
     @Bean
@@ -47,7 +45,8 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, Object> objectConsumerFactory() {
+    public ConsumerFactory<String, Object> objectConsumerFactory(
+            @Value("${spring.kafka.consumer.group-id}") String groupId) {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
