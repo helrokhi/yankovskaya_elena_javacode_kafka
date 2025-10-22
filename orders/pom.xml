@@ -26,6 +26,12 @@
             <artifactId>configurations</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>ru.pro</groupId>
+            <artifactId>exceptions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

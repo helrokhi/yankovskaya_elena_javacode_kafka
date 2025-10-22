@@ -23,6 +23,7 @@
         <module>notifications</module>
         <module>library</module>
         <module>configurations</module>
+        <module>exceptions</module>
     </modules>
 
     <properties>
