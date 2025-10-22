@@ -1,6 +1,5 @@
 package ru.pro.kafka.impl;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -10,17 +9,14 @@ import org.springframework.stereotype.Component;
 import ru.pro.kafka.NotificationConsumer;
 import ru.pro.model.dto.OrderDto;
 import ru.pro.service.NotificationService;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import ru.pro.service.OrderStorageService;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationConsumerImpl implements NotificationConsumer {
     private final NotificationService notificationService;
-    @Getter
-    private final Map<String, OrderDto> sentOrders = new ConcurrentHashMap<>();
+    private final OrderStorageService orderStorageService;
 
     @Override
     @KafkaListener(
@@ -40,7 +36,7 @@ public class NotificationConsumerImpl implements NotificationConsumer {
         }
         OrderDto order = (OrderDto) value;
         log.info("Received new order: {}", order.id());
-        sentOrders.put(order.id(), order);
+        orderStorageService.save(order);
         notificationService.sendOrderDeliveredNotification(order);
     }
 }

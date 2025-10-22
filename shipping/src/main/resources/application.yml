@@ -14,3 +14,4 @@ spring:
 topics:
   input: payed_orders
   output: sent_orders
+  partitions: 4

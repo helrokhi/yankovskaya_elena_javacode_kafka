@@ -27,9 +27,6 @@ public class KafkaConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value("${topics.partitions}")
-    private int partitions;
-
     private final ObjectMapper objectMapper;
 
     @Bean
@@ -63,6 +60,7 @@ public class KafkaConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Object> objectConcurrentKafkaListenerContainerFactory(
+            @Value("${topics.partitions}") int partitions,
             ConsumerFactory<String, Object> objectConsumerFactory) {
         ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
 

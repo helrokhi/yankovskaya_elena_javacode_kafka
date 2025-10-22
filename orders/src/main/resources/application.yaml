@@ -16,3 +16,4 @@ topics:
     payed: payed_orders
     sent: sent_orders
   output: new_orders
+  partitions: 4

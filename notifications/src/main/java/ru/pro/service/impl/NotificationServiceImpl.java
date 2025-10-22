@@ -7,11 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import ru.pro.kafka.NotificationConsumer;
 import ru.pro.model.dto.OrderDto;
 import ru.pro.service.NotificationService;
+import ru.pro.service.OrderStorageService;
 
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,15 +20,13 @@ import static ru.pro.model.enums.OrderStatus.SENT;
 @RequiredArgsConstructor
 @Slf4j
 public class NotificationServiceImpl implements NotificationService {
-    private final NotificationConsumer notificationConsumer;
+    private final OrderStorageService orderStorageService;
     private final JavaMailSender mailSender;
 
     @Override
     public Set<OrderDto> findAllByCustomer(String id) {
-        Map<String, OrderDto> sentOrders = notificationConsumer.getSentOrders();
-        return sentOrders.values().stream()
-                .filter(order -> order.customer().equals(id))
-                .filter(order -> order.status().equals(SENT))
+        return orderStorageService.getAll().values().parallelStream()
+                .filter(order -> order.customer().equals(id) && order.status().equals(SENT))
                 .collect(Collectors.toSet());
     }
 
@@ -38,8 +35,10 @@ public class NotificationServiceImpl implements NotificationService {
         try {
             sendEmail(order);
             log.info("Notification sent to user {} about delivery of order {}", order.customer(), order.id());
+        } catch (MessagingException e) {
+            log.error("Ошибка при отправке уведомления пользователю {}: {}", order.customer(), e.getMessage());
         } catch (Exception e) {
-            log.error("Unable to send notification for order {}: {}", order.id(), e.getMessage());
+            log.error("Непредвиденная ошибка при отправке уведомления для заказа {}: {}", order.id(), e.getMessage());
         }
     }
 

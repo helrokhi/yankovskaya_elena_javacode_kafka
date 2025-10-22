@@ -5,6 +5,17 @@ spring:
   application:
     name: ms-notifications
 
+  mail:
+    host: localhost
+    port: 1025
+    username: ""
+    password: ""
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls.enable: false
+
   kafka:
     bootstrap-servers: localhost:9092
 
@@ -14,3 +25,8 @@ spring:
 topics:
   input:
     sent: sent_orders
+  partitions: 4
+
+logging:
+  level:
+    org.springframework.mail: DEBUG
