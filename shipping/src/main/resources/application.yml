@@ -6,12 +6,28 @@ spring:
     name: ms-shipping
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:29092
+
+    producer:
+      key:
+        serializer: org.apache.kafka.common.serialization.StringSerializer
+      value:
+        serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
     consumer:
       group-id: shipping-group
+      auto-offset-reset: earliest
+      key:
+        deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value:
+        deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
 topics:
   input: payed_orders
   output: sent_orders
   partitions: 4
+
+logging:
+  level:
+    root: INFO
+    org.springframework.kafka: INFO
